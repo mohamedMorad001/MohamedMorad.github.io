@@ -1,0 +1,742 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Mohamed Morad - Web Developer & Graphic Designer</title>
+
+    <!-- Manifest -->
+    <link rel="manifest" href="./manifest.json">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect fill='%23ff8c00' width='100' height='100'/><text x='50' y='75' font-size='90' fill='white' text-anchor='middle' font-weight='bold' font-family='Arial'>S</text></svg>">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background: linear-gradient(135deg, #0f172a 0%, #1a2847 50%, #0d3d56 100%);
+            min-height: 100vh;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        /* ============================================
+           ANIMATIONS & KEYFRAMES
+           ============================================ */
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-15px); }
+        }
+
+        @keyframes glow {
+            0%, 100% {
+                text-shadow: 0 0 5px rgba(255, 140, 0, 0.5);
+                box-shadow: 0 0 15px rgba(255, 140, 0, 0.3);
+            }
+            50% {
+                text-shadow: 0 0 20px rgba(255, 140, 0, 0.8);
+                box-shadow: 0 0 30px rgba(255, 140, 0, 0.5);
+            }
+        }
+
+        @keyframes skillPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        @keyframes imageFade {
+            from {
+                opacity: 0;
+                transform: scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        /* ============================================
+           UTILITY CLASSES
+           ============================================ */
+
+        .fade-in-up {
+            animation: fadeInUp 0.8s ease-out forwards;
+        }
+
+        .float {
+            animation: float 3s ease-in-out infinite;
+        }
+
+        .glow-active {
+            animation: glow 2s ease-in-out infinite;
+        }
+
+        .skill-icon {
+            transition: all 0.3s ease;
+        }
+
+        .skill-icon:hover {
+            animation: skillPulse 0.6s ease-in-out;
+            filter: drop-shadow(0 0 15px rgba(255, 140, 0, 0.6));
+        }
+
+        /* ============================================
+           SCROLL ANIMATIONS
+           ============================================ */
+
+        .aos {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+
+        .aos.aos-animate {
+            opacity: 1;
+            transform: translateY(0);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+
+        .project-image {
+            animation: imageFade 0.5s ease-out forwards;
+        }
+
+        /* ============================================
+           CUSTOM SCROLLBAR
+           ============================================ */
+
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: rgba(255, 140, 0, 0.1);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: rgba(255, 140, 0, 0.4);
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgba(255, 140, 0, 0.6);
+        }
+
+        /* ============================================
+           NAVBAR STYLES
+           ============================================ */
+
+        .floating-navbar {
+            backdrop-filter: blur(10px);
+            background: rgba(15, 23, 42, 0.85);
+            border: 1px solid rgba(255, 140, 0, 0.2);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+
+        .nav-icon {
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .nav-icon:hover {
+            color: #ff8c00;
+            transform: scale(1.2);
+        }
+
+        .nav-icon.active {
+            color: #ff8c00;
+            animation: glow 1.5s ease-in-out infinite;
+        }
+
+        /* ============================================
+           CARD HOVER EFFECTS
+           ============================================ */
+
+        .card-hover {
+            transition: all 0.3s ease;
+        }
+
+        .card-hover:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(255, 140, 0, 0.15);
+        }
+
+        /* ============================================
+           BUTTON STYLES
+           ============================================ */
+
+        .btn-primary {
+            position: relative;
+            overflow: hidden;
+            background: linear-gradient(135deg, #ff8c00, #ff6b35);
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(255, 140, 0, 0.3);
+        }
+
+        .btn-primary::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.2);
+            transition: left 0.3s ease;
+        }
+
+        .btn-primary:hover::before {
+            left: 100%;
+        }
+
+        /* ============================================
+           FILTER BUTTONS
+           ============================================ */
+
+        .filter-btn {
+            transition: all 0.3s ease;
+            border: 2px solid rgba(255, 140, 0, 0.3);
+        }
+
+        .filter-btn.active {
+            border-color: #ff8c00;
+            background: rgba(255, 140, 0, 0.2);
+            color: #ff8c00;
+        }
+
+        .filter-btn:hover {
+            border-color: #ff8c00;
+        }
+
+        /* ============================================
+           GALLERY STYLES
+           ============================================ */
+
+        .gallery-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+        .gallery-item:hover .gallery-image {
+            transform: scale(1.05);
+        }
+
+        /* ============================================
+           SECTION SPACING
+           ============================================ */
+
+        section {
+            scroll-margin-top: 100px;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            animation: fadeInUp 0.3s ease-out;
+        }
+
+        .modal-content {
+            margin: auto;
+            padding: 20px;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            max-width: 90vw;
+            max-height: 90vh;
+            border-radius: 20px;
+            background: rgba(15, 23, 42, 0.95);
+            border: 1px solid rgba(255, 140, 0, 0.3);
+        }
+
+        .modal-image {
+            max-width: 100%;
+            max-height: 70vh;
+            border-radius: 15px;
+        }
+
+        .close-modal {
+            color: #ff8c00;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+            position: absolute;
+            top: 20px;
+            right: 20px;
+        }
+
+        .close-modal:hover {
+            color: #ff6b35;
+        }
+    </style>
+
+</head>
+<body class="text-gray-100 overflow-x-hidden">
+    <!-- ============================================
+         HERO SECTION
+         ============================================ -->
+    <section id="home" class="min-h-screen flex items-center justify-center px-4 py-20">
+        <div class="text-center max-w-2xl mx-auto w-full">
+            <!-- Floating Profile Card -->
+            <div class="relative">
+                <!-- Profile Image -->
+                <div class="flex justify-center mb-8">
+                    <div class="relative float">
+                        <img
+                            src="./simo.png"
+                            alt="Profile"
+                            class="w-32 h-32 md:w-40 md:h-40 rounded-full border-4 border-orange-500 shadow-2xl object-cover"
+                            onerror="this.src='https://ui-avatars.com/api/?name=Morad&background=ff8c00&color=fff&size=160&bold=true'"
+                        >
+                        <div class="absolute inset-0 rounded-full bg-gradient-to-br from-orange-400 to-transparent opacity-20"></div>
+                    </div>
+                </div>
+
+                <!-- Orange Card -->
+                <div class="bg-gradient-to-br from-orange-500 to-orange-600 rounded-3xl p-8 md:p-12 shadow-2xl aos fade-in-up">
+                    <h1 class="text-4xl md:text-5xl font-bold text-white mb-2">Mohamed Morad</h1>
+                    <p class="text-xl md:text-2xl text-orange-100 font-semibold mb-4">
+                        Web Developer & Graphic Designer
+                    </p>
+                    <p class="text-lg text-orange-50 mb-8 leading-relaxed">
+                        Crafting digital experiences that blend code and creativity. Specializing in modern web development and stunning visual design.
+                    </p>
+
+                    <!-- Tech Stack Badges -->
+                    <div class="flex flex-wrap justify-center gap-2 mb-8">
+                        <span class="px-3 py-1 bg-white/20 backdrop-blur rounded-full text-xs md:text-sm font-semibold hover:bg-white/30 transition-all cursor-default">
+                            PHP & Laravel
+                        </span>
+                        <span class="px-3 py-1 bg-white/20 backdrop-blur rounded-full text-xs md:text-sm font-semibold hover:bg-white/30 transition-all cursor-default">
+                            JavaScript
+                        </span>
+                        <span class="px-3 py-1 bg-white/20 backdrop-blur rounded-full text-xs md:text-sm font-semibold hover:bg-white/30 transition-all cursor-default">
+                            Adobe Creative Suite
+                        </span>
+                    </div>
+
+                    <!-- CTA Button -->
+                    <button onclick="scrollToSection('projects')" class="btn-primary px-8 py-3 text-white font-bold rounded-full hover:shadow-lg transform hover:scale-105 transition-all">
+                        View Projects <i class="fas fa-arrow-right ml-2"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Scroll Indicator -->
+            <div class="mt-16 animate-bounce">
+                <p class="text-orange-400 text-sm font-semibold mb-2">Scroll to explore</p>
+                <i class="fas fa-chevron-down text-orange-400 text-2xl"></i>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================
+         ABOUT SECTION
+         ============================================ -->
+    <section id="about" class="min-h-screen flex items-center justify-center px-4 py-20 bg-gradient-to-b from-transparent via-slate-900/30 to-transparent">
+        <div class="max-w-4xl mx-auto w-full">
+            <h2 class="text-4xl md:text-5xl font-bold text-center mb-12 text-orange-400">About Me</h2>
+
+            <div class="grid md:grid-cols-2 gap-8">
+                <!-- Development -->
+                <div class="bg-gradient-to-br from-slate-800/50 to-slate-900/50 backdrop-blur border border-orange-500/20 rounded-2xl p-8 card-hover aos">
+                    <div class="text-4xl mb-4 text-orange-400">
+                        <i class="fas fa-code"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold text-white mb-4">Development</h3>
+                    <p class="text-gray-300 leading-relaxed">
+                        I build robust, scalable web applications using modern technologies. With expertise in PHP, Laravel, and JavaScript, I create seamless user experiences that solve real-world problems. From e-commerce platforms to real-time applications, I deliver clean, maintainable code.
+                    </p>
+                </div>
+
+                <!-- Design -->
+                <div class="bg-gradient-to-br from-slate-800/50 to-slate-900/50 backdrop-blur border border-orange-500/20 rounded-2xl p-8 card-hover aos">
+                    <div class="text-4xl mb-4 text-orange-400">
+                        <i class="fas fa-palette"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold text-white mb-4">Design</h3>
+                    <p class="text-gray-300 leading-relaxed">
+                        Creative visual storyteller with mastery in Adobe Creative Suite. I design compelling graphics, intuitive UI/UX, and brand identities. Combining aesthetics with functionality, I ensure every pixel serves a purpose in creating memorable digital experiences.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Combined Experience -->
+            <div class="mt-12 bg-gradient-to-br from-slate-800/50 to-slate-900/50 backdrop-blur border border-orange-500/20 rounded-2xl p-8 card-hover aos">
+                <h3 class="text-2xl font-bold text-orange-400 mb-4">Why Both?</h3>
+                <p class="text-gray-300 leading-relaxed text-lg">
+                    The magic happens when development meets design. I don't just build websites—I craft complete digital experiences. By understanding both the technical and creative sides, I deliver projects that are powerful, beautiful, and perfectly aligned with your vision. This unique dual skillset allows me to bridge the gap between designers and developers, ensuring nothing gets lost in translation.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================
+         SKILLS SECTION
+         ============================================ -->
+    <section id="skills" class="min-h-screen flex items-center justify-center px-4 py-20">
+        <div class="max-w-6xl mx-auto w-full">
+            <h2 class="text-4xl md:text-5xl font-bold text-center mb-16 text-orange-400">Skills & Tools</h2>
+
+            <!-- Development Skills -->
+            <div class="mb-16 aos">
+                <h3 class="text-2xl font-bold text-white mb-8 flex items-center">
+                    <i class="fas fa-code mr-4 text-orange-400"></i> Web Development
+                </h3>
+                <div class="grid grid-cols-3 md:grid-cols-5 lg:grid-cols-6 gap-6">
+                    <!-- HTML -->
+                    <div class="skill-icon flex flex-col items-center group cursor-pointer">
+                        <div class="w-16 h-16 rounded-2xl bg-gradient-to-br from-orange-400 to-orange-600 flex items-center justify-center shadow-lg group-hover:shadow-xl transition-all mb-3">
+                            <i class="fab fa-html5 text-white text-2xl"></i>
+                        </div>
+                        <span class="text-sm font-semibold text-gray-300 text-center">HTML5</span>
+                    </div>
+
+                    <!-- CSS -->
+                    <div class="skill-icon flex flex-col items-center group cursor-pointer">
+                        <div class="w-16 h-16 rounded-2xl bg-gradient-to-br from-blue-400 to-blue-600 flex items-center justify-center shadow-lg group-hover:shadow-xl transition-all mb-3">
+                            <i class="fab fa-css3-alt text-white text-2xl"></i>
+                        </div>
+                        <span class="text-sm font-semibold text-gray-300 text-center">CSS3</span>
+                    </div>
+
+                    <!-- JavaScript -->
+                    <div class="skill-icon flex flex-col items-center group cursor-pointer">
+                        <div class="w-16 h-16 rounded-2xl bg-gradient-to-br from-yellow-300 to-yellow-500 flex items-center justify-center shadow-lg group-hover:shadow-xl transition-all mb-3">
+                            <i class="fab fa-js-square text-white text-2xl"></i>
+                        </div>
+                        <span class="text-sm font-semibold text-gray-300 text-center">JavaScript</span>
+                    </div>
+
+                    <!-- Tailwind -->
+                    <div class="skill-icon flex flex-col items-center group cursor-pointer">
+                        <div class="w-16 h-16 rounded-2xl bg-gradient-to-br from-cyan-400 to-cyan-600 flex items-center justify-center shadow-lg group-hover:shadow-xl transition-all mb-3">
+                            <i class="fab fa-tailwind text-white text-2xl"></i>
+                        </div>
+                        <span class="text-sm font-semibold text-gray-300 text-center">Tailwind</span>
+                    </div>
+
+                    <!-- PHP -->
+                    <div class="skill-icon flex flex-col items-center group cursor-pointer">
+                        <div class="w-16 h-16 rounded-2xl bg-gradient-to-br from-violet-400 to-violet-600 flex items-center justify-center shadow-lg group-hover:shadow-xl transition-all mb-3">
+                            <i class="fab fa-php text-white text-2xl"></i>
+                        </div>
+                        <span class="text-sm font-semibold text-gray-300 text-center">PHP</span>
+                    </div>
+
+                    <!-- Laravel -->
+                    <div class="skill-icon flex flex-col items-center group cursor-pointer">
+                        <div class="w-16 h-16 rounded-2xl bg-gradient-to-br from-red-400 to-red-600 flex items-center justify-center shadow-lg group-hover:shadow-xl transition-all mb-3">
+                            <i class="fab fa-laravel text-white text-2xl"></i>
+                        </div>
+                        <span class="text-sm font-semibold text-gray-300 text-center">Laravel</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Design Skills -->
+            <div class="aos">
+                <h3 class="text-2xl font-bold text-white mb-8 flex items-center">
+                    <i class="fas fa-palette mr-4 text-orange-400"></i> Design & Creative
+                </h3>
+                <div class="grid grid-cols-3 md:grid-cols-5 lg:grid-cols-6 gap-6">
+                    <!-- Photoshop -->
+                    <div class="skill-icon flex flex-col items-center group cursor-pointer">
+                        <div class="w-16 h-16 rounded-2xl bg-gradient-to-br from-blue-500 to-blue-700 flex items-center justify-center shadow-lg group-hover:shadow-xl transition-all mb-3">
+                            <span class="text-white font-bold text-2xl">Ps</span>
+                        </div>
+                        <span class="text-sm font-semibold text-gray-300 text-center">Photoshop</span>
+                    </div>
+
+                    <!-- Illustrator -->
+                    <div class="skill-icon flex flex-col items-center group cursor-pointer">
+                        <div class="w-16 h-16 rounded-2xl bg-gradient-to-br from-orange-400 to-orange-600 flex items-center justify-center shadow-lg group-hover:shadow-xl transition-all mb-3">
+                            <span class="text-white font-bold text-2xl">Ai</span>
+                        </div>
+                        <span class="text-sm font-semibold text-gray-300 text-center">Illustrator</span>
+                    </div>
+
+                    <!-- InDesign -->
+                    <div class="skill-icon flex flex-col items-center group cursor-pointer">
+                        <div class="w-16 h-16 rounded-2xl bg-gradient-to-br from-pink-500 to-pink-700 flex items-center justify-center shadow-lg group-hover:shadow-xl transition-all mb-3">
+                            <span class="text-white font-bold text-2xl">Id</span>
+                        </div>
+                        <span class="text-sm font-semibold text-gray-300 text-center">InDesign</span>
+                    </div>
+
+                    <!-- Figma -->
+                    <div class="skill-icon flex flex-col items-center group cursor-pointer">
+                        <div class="w-16 h-16 rounded-2xl bg-gradient-to-br from-purple-400 to-purple-600 flex items-center justify-center shadow-lg group-hover:shadow-xl transition-all mb-3">
+                            <i class="fab fa-figma text-white text-2xl"></i>
+                        </div>
+                        <span class="text-sm font-semibold text-gray-300 text-center">Figma</span>
+                    </div>
+
+                    <!-- UI/UX Design -->
+                    <div class="skill-icon flex flex-col items-center group cursor-pointer">
+                        <div class="w-16 h-16 rounded-2xl bg-gradient-to-br from-teal-400 to-teal-600 flex items-center justify-center shadow-lg group-hover:shadow-xl transition-all mb-3">
+                            <i class="fas fa-pen-ruler text-white text-2xl"></i>
+                        </div>
+                        <span class="text-sm font-semibold text-gray-300 text-center">UI/UX</span>
+                    </div>
+
+                    <!-- Branding -->
+                    <div class="skill-icon flex flex-col items-center group cursor-pointer">
+                        <div class="w-16 h-16 rounded-2xl bg-gradient-to-br from-green-400 to-green-600 flex items-center justify-center shadow-lg group-hover:shadow-xl transition-all mb-3">
+                            <i class="fas fa-image text-white text-2xl"></i>
+                        </div>
+                        <span class="text-sm font-semibold text-gray-300 text-center">Branding</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- ============================================
+         GRAPHIC DESIGN PORTFOLIO SECTION
+         ============================================ -->
+    <section id="graphic-design" class="min-h-screen flex items-center justify-center px-4 py-20">
+        <div class="max-w-6xl mx-auto w-full">
+            <h2 class="text-4xl md:text-5xl font-bold text-center mb-8 text-orange-400">Graphic Design Portfolio</h2>
+            <p class="text-center text-gray-300 mb-12 text-lg">
+                Explore my creative design projects, from brand identity to personal artistic works
+            </p>
+
+            <!-- Filter Buttons -->
+            <div class="flex flex-wrap justify-center gap-4 mb-16">
+                <button class="filter-btn active px-6 py-2 rounded-full font-semibold" data-filter="all">
+                    All Projects
+                </button>
+                <button class="filter-btn px-6 py-2 rounded-full font-semibold" data-filter="instagram feeds">
+                    Instagram Feeds
+                </button>
+                <button class="filter-btn px-6 py-2 rounded-full font-semibold" data-filter="logos and brands">
+                    Logos & Brands
+                </button>
+                <button class="filter-btn px-6 py-2 rounded-full font-semibold" data-filter="Personal projects">
+                    Personal Projects
+                </button>
+            </div>
+
+            <!-- Gallery Grid -->
+            <div id="graphicGallery" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+
+                <!-- Project 1: Instagram Feed Design -->
+                <div class="gallery-item group bg-gradient-to-br from-slate-800/50 to-slate-900/50 backdrop-blur border border-orange-500/20 rounded-2xl overflow-hidden cursor-pointer aos" data-category="instagram feeds">
+                    <div class="relative h-64 overflow-hidden bg-slate-900">
+                        <img src="./graphic design/instagram feeds/Fichier 1.png" alt="Instagram Feed Design" class="gallery-image" onerror="this.src='https://via.placeholder.com/400x300?text=Image+Not+Found'">
+                        <div class="absolute inset-0 bg-black/40 group-hover:bg-black/20 transition-all flex items-center justify-center opacity-0 group-hover:opacity-100">
+                            <i class="fas fa-expand text-white text-3xl"></i>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-lg font-bold text-white mb-2">Instagram Feed Design</h3>
+                        <p class="text-gray-400 text-sm mb-4">Modern, eye-catching Instagram feed designs optimized for social media engagement.</p>
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            <span class="px-2 py-1 bg-orange-500/30 text-orange-200 text-xs rounded-lg">Social Media</span>
+                            <span class="px-2 py-1 bg-orange-500/30 text-orange-200 text-xs rounded-lg">Design</span>
+                        </div>
+                        <div class="flex flex-wrap gap-2">
+                            <span class="px-2 py-1 bg-blue-500/20 text-blue-200 text-xs rounded-lg">Photoshop</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project 2: Brand Logo Design -->
+                <div class="gallery-item group bg-gradient-to-br from-slate-800/50 to-slate-900/50 backdrop-blur border border-orange-500/20 rounded-2xl overflow-hidden cursor-pointer aos" data-category="logos and brands">
+                    <div class="relative h-64 overflow-hidden bg-slate-900">
+                        <img src="./graphic design/logos and brands/Fichier 2.png" alt="Brand Logo Design" class="gallery-image" onerror="this.src='https://via.placeholder.com/400x300?text=Image+Not+Found'">
+                        <div class="absolute inset-0 bg-black/40 group-hover:bg-black/20 transition-all flex items-center justify-center opacity-0 group-hover:opacity-100">
+                            <i class="fas fa-expand text-white text-3xl"></i>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-lg font-bold text-white mb-2">Brand Logo Design</h3>
+                        <p class="text-gray-400 text-sm mb-4">Professional logo design with versatile applications across digital and print media.</p>
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            <span class="px-2 py-1 bg-orange-500/30 text-orange-200 text-xs rounded-lg">Logo</span>
+                            <span class="px-2 py-1 bg-orange-500/30 text-orange-200 text-xs rounded-lg">Branding</span>
+                        </div>
+                        <div class="flex flex-wrap gap-2">
+                            <span class="px-2 py-1 bg-blue-500/20 text-blue-200 text-xs rounded-lg">Illustrator</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project 3: Brand Identity System -->
+                <div class="gallery-item group bg-gradient-to-br from-slate-800/50 to-slate-900/50 backdrop-blur border border-orange-500/20 rounded-2xl overflow-hidden cursor-pointer aos" data-category="logos and brands">
+                    <div class="relative h-64 overflow-hidden bg-slate-900">
+                        <img src="./graphic design/logos and brands/Fichier 3.png" alt="Brand Identity System" class="gallery-image" onerror="this.src='https://via.placeholder.com/400x300?text=Image+Not+Found'">
+                        <div class="absolute inset-0 bg-black/40 group-hover:bg-black/20 transition-all flex items-center justify-center opacity-0 group-hover:opacity-100">
+                            <i class="fas fa-expand text-white text-3xl"></i>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-lg font-bold text-white mb-2">Brand Identity System</h3>
+                        <p class="text-gray-400 text-sm mb-4">Complete brand identity package with logo variations and guidelines.</p>
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            <span class="px-2 py-1 bg-orange-500/30 text-orange-200 text-xs rounded-lg">Branding</span>
+                            <span class="px-2 py-1 bg-orange-500/30 text-orange-200 text-xs rounded-lg">Identity</span>
+                        </div>
+                        <div class="flex flex-wrap gap-2">
+                            <span class="px-2 py-1 bg-blue-500/20 text-blue-200 text-xs rounded-lg">Illustrator</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project 4: Corporate Logo -->
+                <div class="gallery-item group bg-gradient-to-br from-slate-800/50 to-slate-900/50 backdrop-blur border border-orange-500/20 rounded-2xl overflow-hidden cursor-pointer aos" data-category="logos and brands">
+                    <div class="relative h-64 overflow-hidden bg-slate-900">
+                        <img src="./graphic design/logos and brands/Fichier 5.png" alt="Corporate Logo" class="gallery-image" onerror="this.src='https://via.placeholder.com/400x300?text=Image+Not+Found'">
+                        <div class="absolute inset-0 bg-black/40 group-hover:bg-black/20 transition-all flex items-center justify-center opacity-0 group-hover:opacity-100">
+                            <i class="fas fa-expand text-white text-3xl"></i>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-lg font-bold text-white mb-2">Corporate Logo</h3>
+                        <p class="text-gray-400 text-sm mb-4">Minimalist corporate logo design with modern aesthetics.</p>
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            <span class="px-2 py-1 bg-orange-500/30 text-orange-200 text-xs rounded-lg">Logo</span>
+                            <span class="px-2 py-1 bg-orange-500/30 text-orange-200 text-xs rounded-lg">Corporate</span>
+                        </div>
+                        <div class="flex flex-wrap gap-2">
+                            <span class="px-2 py-1 bg-blue-500/20 text-blue-200 text-xs rounded-lg">Illustrator</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project 5: Ashita no Joe Artwork -->
+                <div class="gallery-item group bg-gradient-to-br from-slate-800/50 to-slate-900/50 backdrop-blur border border-orange-500/20 rounded-2xl overflow-hidden cursor-pointer aos" data-category="Personal projects">
+                    <div class="relative h-64 overflow-hidden bg-slate-900">
+                        <img src="./graphic design/Personal projects/ashita no joe.jpg" alt="Ashita no Joe Artwork" class="gallery-image" onerror="this.src='https://via.placeholder.com/400x300?text=Image+Not+Found'">
+                        <div class="absolute inset-0 bg-black/40 group-hover:bg-black/20 transition-all flex items-center justify-center opacity-0 group-hover:opacity-100">
+                            <i class="fas fa-expand text-white text-3xl"></i>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-lg font-bold text-white mb-2">Ashita no Joe Artwork</h3>
+                        <p class="text-gray-400 text-sm mb-4">Personal art project inspired by anime aesthetic with bold typography.</p>
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            <span class="px-2 py-1 bg-orange-500/30 text-orange-200 text-xs rounded-lg">Art</span>
+                            <span class="px-2 py-1 bg-orange-500/30 text-orange-200 text-xs rounded-lg">Anime</span>
+                        </div>
+                        <div class="flex flex-wrap gap-2">
+                            <span class="px-2 py-1 bg-blue-500/20 text-blue-200 text-xs rounded-lg">Photoshop</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project 6: Batman: The Killing Joke -->
+                <div class="gallery-item group bg-gradient-to-br from-slate-800/50 to-slate-900/50 backdrop-blur border border-orange-500/20 rounded-2xl overflow-hidden cursor-pointer aos" data-category="Personal projects">
+                    <div class="relative h-64 overflow-hidden bg-slate-900">
+                        <img src="./graphic design/Personal projects/batman the killing joke.png" alt="Batman: The Killing Joke" class="gallery-image" onerror="this.src='https://via.placeholder.com/400x300?text=Image+Not+Found'">
+                        <div class="absolute inset-0 bg-black/40 group-hover:bg-black/20 transition-all flex items-center justify-center opacity-0 group-hover:opacity-100">
+                            <i class="fas fa-expand text-white text-3xl"></i>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-lg font-bold text-white mb-2">Batman: The Killing Joke</h3>
+                        <p class="text-gray-400 text-sm mb-4">Creative reinterpretation of iconic graphic novel artwork.</p>
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            <span class="px-2 py-1 bg-orange-500/30 text-orange-200 text-xs rounded-lg">Graphic Novel</span>
+                            <span class="px-2 py-1 bg-orange-500/30 text-orange-200 text-xs rounded-lg">Art</span>
+                        </div>
+                        <div class="flex flex-wrap gap-2">
+                            <span class="px-2 py-1 bg-blue-500/20 text-blue-200 text-xs rounded-lg">Photoshop</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project 7: Bloodborne Brutalism -->
+                <div class="gallery-item group bg-gradient-to-br from-slate-800/50 to-slate-900/50 backdrop-blur border border-orange-500/20 rounded-2xl overflow-hidden cursor-pointer aos" data-category="Personal projects">
+                    <div class="relative h-64 overflow-hidden bg-slate-900">
+                        <img src="./graphic design/Personal projects/bloodborne brutalism img.png" alt="Bloodborne Brutalism" class="gallery-image" onerror="this.src='https://via.placeholder.com/400x300?text=Image+Not+Found'">
+                        <div class="absolute inset-0 bg-black/40 group-hover:bg-black/20 transition-all flex items-center justify-center opacity-0 group-hover:opacity-100">
+                            <i class="fas fa-expand text-white text-3xl"></i>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-lg font-bold text-white mb-2">Bloodborne Brutalism</h3>
+                        <p class="text-gray-400 text-sm mb-4">Dark, atmospheric design inspired by video game aesthetics.</p>
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            <span class="px-2 py-1 bg-orange-500/30 text-orange-200 text-xs rounded-lg">Gaming</span>
+                            <span class="px-2 py-1 bg-orange-500/30 text-orange-200 text-xs rounded-lg">Dark Design</span>
+                        </div>
+                        <div class="flex flex-wrap gap-2">
+                            <span class="px-2 py-1 bg-blue-500/20 text-blue-200 text-xs rounded-lg">Photoshop</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project 8: The Fool Tarot Card -->
+                <div class="gallery-item group bg-gradient-to-br from-slate-800/50 to-slate-900/50 backdrop-blur border border-orange-500/20 rounded-2xl overflow-hidden cursor-pointer aos" data-category="Personal projects">
+                    <div class="relative h-64 overflow-hidden bg-slate-900">
+                        <img src="./graphic design/Personal projects/The fool.jpg" alt="The Fool Tarot Card" class="gallery-image" onerror="this.src='https://via.placeholder.com/400x300?text=Image+Not+Found'">
+                        <div class="absolute inset-0 bg-black/40 group-hover:bg-black/20 transition-all flex items-center justify-center opacity-0 group-hover:opacity-100">
+                            <i class="fas fa-expand text-white text-3xl"></i>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-lg font-bold text-white mb-2">The Fool Tarot Card</h3>
+                        <p class="text-gray-400 text-sm mb-4">Original tarot card design with mystical elements and contemporary art.</p>
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            <span class="px-2 py-1 bg-orange-500/30 text-orange-200 text-xs rounded-lg">Mystical</span>
+                            <span class="px-2 py-1 bg-orange-500/30 text-orange-200 text-xs rounded-lg">Tarot</span>
+                        </div>
+                        <div class="flex flex-wrap gap-2">
+                            <span class="px-2 py-1 bg-blue-500/20 text-blue-200 text-xs rounded-lg">Photoshop</span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================
+         IMAGE MODAL
+         ============================================ -->
+    <div id="imageModal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <img id="modalImage" src="" alt="Project" class="modal-image mx-auto">
+            <div class="mt-6 text-center">
+                <h3 id="modalTitle" class="text-2xl font-bold text-white mb-2"></h3>
+                <p id="modalDesc" class="text-gray-300 mb-4"></p>
+                <div id="modalTags" class="flex flex-wrap justify-center gap-2"></div>
+            </div>
+        </div>
+    </div>
+
+   
+
+    <!-- Link to external JavaScript -->
+    <script src="script.js"></script>
+</body>
+</html>
