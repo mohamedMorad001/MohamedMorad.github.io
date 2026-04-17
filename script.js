@@ -212,20 +212,8 @@ function closeModal() {
     document.body.style.overflow = 'auto';
 }
 
-// ============================================
-// PWA - Service Worker Registration
-// ============================================
 
-if ('serviceWorker' in navigator) {
-    window.addEventListener('load', () => {
-        navigator.serviceWorker.register('./sw.js')
-            .then(registration => {
-                console.log('✅ Service Worker registered');
-            })
-            .catch(error => {
-                console.warn('⚠️ Service Worker registration failed:', error);
-            });
-    });
-}
+
+
 
 console.log('%c🚀 Portfolio Loaded', 'color: #ff8c00; font-size: 16px; font-weight: bold;');
